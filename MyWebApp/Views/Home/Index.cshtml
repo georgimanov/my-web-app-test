@@ -1,0 +1,54 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group ">
+                <p>
+                    Text:
+                    <input class="form-control" type="text" id="my-string" value="default value" />
+                </p>
+                <p>
+                    Date:
+                    <input class="form-control" type="text" id="datepicker">
+                </p>
+
+                <button id="btn" class="btn btn-warning">press me</button>
+            </div>
+        </div>
+
+        <div>
+            <p id="result"></p>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $("#datepicker").datepicker();
+
+        $('#btn').on('click', function () {
+            var myStringValue = $('#my-string').val();
+            var myDateValue = $('#datepicker').val();
+
+            $.ajax({
+                type: "POST",
+                url: '/Home/Index',
+                data: {
+                    myString: myStringValue,
+                    myDate: myDateValue
+                },
+                success: function (data) {
+                    console.log(data);
+                    $('#result').html(data.value + '<br/>' + data.date);
+                },
+                error: function (e) {
+                    console.error(e);
+                }
+            });
+        });
+    });
+</script>
